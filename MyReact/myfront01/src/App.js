@@ -1,6 +1,7 @@
 import Myheader from "./components/Header";
-import Body from "./components/Body";
+import Body from "./components02/Body04";
 import Footer from "./components/Footer";
+// import Recipe from "./components01/Recipe";
 // ** import
 // => 컴포넌트는 MyComp from real_File_path; 
 //    내부 코드에서 MyComp 이름으로 인식

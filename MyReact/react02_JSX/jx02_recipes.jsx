@@ -50,6 +50,8 @@ const data = [
 
 
 // ** Recipe 컴포넌트
+// (인자들) => { return 하나의 element }
+
 const Recipe = ({ name, ingredients, steps }) =>
     <section id={name.toLowerCase().replace(/ /g, "-")}>
         <h1>{name}</h1>
