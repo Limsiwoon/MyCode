@@ -1,8 +1,7 @@
 import Recipe from './Recipe'
-import '../../stylesheets/Menu.css'
+import {data as recipes}  from './recipeData'
 
-
-const Menu = ({ recipes }) =>
+const Menu = () =>
     <article>
         <header>
             <h1>맛있는 조리법</h1>
@@ -10,10 +9,12 @@ const Menu = ({ recipes }) =>
         <div className="recipes">
             { recipes.map((recipe, i) =>
                 <Recipe key={i} {...recipe} />)
+                // name = ? , ingredients = ? , steps =?
             }
         </div>
     </article>
 
 Menu.displayName = 'Menu'
+// => displayName 속성 : 컴포넌트 이름을 명시하여, 디버깅을 용이하게 해주는 속성
 
 export default Menu
