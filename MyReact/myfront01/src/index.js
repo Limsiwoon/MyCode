@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, HashRouter } from "react-router-dom";
 
 // ** ReactDOM.createRoot
 // => React 18에서는 기존에 사용하던 ReactDOM.render 대신 ReactDOM.createRoot가 도입
@@ -30,12 +31,31 @@ import reportWebVitals from './reportWebVitals';
 //  - Ensuring(보장) reusable state
 
 
+//========== BrowserRouter 컴포넌트 ==================================================================================================
+
+// 2. Router Test
+// => BrowserRouter 컴포넌트
+// import { BrowserRouter, HashRouter } from "react-router-dom";
+//  -> Router 적용하려는 최상위 컴포넌트를 감싸는 Rapper 컴포넌트
+//  -> 브라우저의 주소 변경을 감지하며 컴포넌트가 페이지를 구성하고 이동하는데 필요한 다양한 기능 제공
+// => HashRouter 컴포넌트
+//  -> url 에 # 을 추가해 어떤 Path 에서 접근 하더라도
+//    동일한 웹Page 를 제공할 수 있도록 해줌
+// => BrowserRouter 와 비교해본다 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
-    <App />
+  //    <App />
   // </React.StrictMode>
+
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+
+  // <HashRouter>
+  //   <App />
+  // </HashRouter>
 );
 
 
