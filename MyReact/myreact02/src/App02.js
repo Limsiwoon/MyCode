@@ -15,9 +15,9 @@
 //=================================================
 import './App.css';
 import Header from './components/Header';
-import TodoEditor from './components/TodoEditor';
-import TodoList from './components/TodoList';
-import TestComp from './components/TestComp';
+import TodoEditor from './components01/TodoEditor';
+import TodoList from './components01/TodoList';
+import TestComp from './components01/TestComp';
 import { useReducer, useState, useRef } from "react";
 
 // 2. Mock Data
@@ -83,8 +83,8 @@ function App() {
     dispatch({ type:"Create",
                newItem: {
                   id: idRef.current,
-                  content: content,
                   isDone: false,
+                  content: content,
                   createDate: new Date().getTime()
                }
     }); //dispatch

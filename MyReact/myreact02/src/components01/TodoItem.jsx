@@ -1,9 +1,9 @@
 import "./TodoItem.css";
 import React from "react";
  
-function TodoItem(){}
+// function TodoItem(){}
 
-const TodoItem = ()=>{}
+// const TodoItem = ()=>{}
 
 const TodoItem = ({id, isDone, content, createDate, onUpdate, onDelete}) => {
 

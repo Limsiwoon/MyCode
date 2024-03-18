@@ -57,11 +57,14 @@
 // => useMemo(), useCallback(), React.memo 적용
 
 import './App.css';
-import Header from './components/Header';
-import TodoEditor from './components/TodoEditor';
-import TodoList from './components/TodoList';
-import TestComp from './components/TestComp';
+
+import Header from './components01/Header';
+import TodoEditor from './components01/TodoEditor';
+import TodoList from './components01/TodoList';
+// import TestComp from './components/TestComp';
+
 import { useReducer, useState, useRef } from "react";
+// import { useState, useMemo, useEffect } from "react";
 import { useCallback } from 'react';
 
 // 2. Mock Data
