@@ -1,11 +1,15 @@
 
 // ** 최적화 적용
-// => 부모 랜더링 시 자식 컴포넌트는 무조건 랜더링 되며
-//    이로 인한 불필요한 리랜더링을 방지하여 실행시 효율성 향상  
-//  -> React.memo : Header, TodoItem
-//  -> useMemo()  : TodoList
-// => 적용전: 부모 컴포넌트인 App 이 리랜더링 되면 무조건 리랜더링 됨
-// => 적용후: 마운트시에만 랜더링 됨.
+// => 부모 랜더링시 자식 컴포넌트는 무조건 랜더링 되며 이때 모든 변수값은 초기화되고, 함수는 재호출된다.
+//    이로 인한 불필요한 리랜더링을 방지하여 실행시 효율성 향상켜주는것을 말함.  
+
+// => 랜더링 최적화: React.memo (메모이제이션)
+//    부모컴포넌트의 영향에서 벗어나 마운트시에만 랜더링함.
+//    Header, TodoItem
+
+// => 함수 호출의 최적화: useMemo(callback, [의존성배열])  
+//    두번째 인자인 의존성배열 의 값이 바뀌었을때만 callback 함수를 실행하고 결과값을 return함.
+//    TodoList
 
 // ** TodoList (일정관리 앱) 1.
 // 1. UI
@@ -120,24 +124,20 @@ function App() {
   // => todo.map() 으로 id 가 일치하는 item 의 isDone 값 변경후(토글방식) return
   // => 수정대상인 id 를 인자로 전달받음
   const onUpdate = (targetId) => {
-    setTodo( 
-      // 배열이 변경되어야 setTodo 에 적용됨. 
-      todo.map( (it) => 
+    setTodo( todo.map( (it) => 
       it.id === targetId ? 
       { ...it, isDone: !it.isDone } : it ) ); //setTodo
-      //일치하는 경우 객체를 나열하여, isDone값을 넣어줌 : 불일치 하는 경우 그 값(it)을 전달
   }
 
   // 3.4) 일정 삭제 
   // => todo 변경 (삭제 대상 제거)
   // => todo.filter() 로 id 가 일치하는 item 만 제외시키고 다른 item 들은 return
-  // => 삭제 대상인 id 를 인자로 전달받음ㅁ
+  // => 삭제 대상인 id 를 인자로 전달받음
   const onDelete = (targetId) => {
     setTodo( todo.filter( (it) => it.id !== targetId )); //setTodo
   }
   
   console.log("** App Update !! **");
-
   return (
     <div className="App">
       <Header />

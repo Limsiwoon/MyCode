@@ -14,7 +14,7 @@
 // => useReducer 적용
 //=================================================
 import './App.css';
-import Header from './components/Header';
+import Header from './components01/Header';
 import TodoEditor from './components01/TodoEditor';
 import TodoList from './components01/TodoList';
 import TestComp from './components01/TestComp';
@@ -83,8 +83,8 @@ function App() {
     dispatch({ type:"Create",
                newItem: {
                   id: idRef.current,
-                  isDone: false,
                   content: content,
+                  isDone: false,
                   createDate: new Date().getTime()
                }
     }); //dispatch
@@ -109,7 +109,6 @@ function App() {
       <TodoEditor onCreate={onCreate} />
       <TodoList todo={todo} onUpdate={onUpdate} onDelete={onDelete} />
     </div>
-   
     
   );
 }

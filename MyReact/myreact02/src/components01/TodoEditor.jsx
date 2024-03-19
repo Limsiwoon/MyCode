@@ -25,13 +25,13 @@ const TodoEditor = ({onCreate}) => {
     //    빈 Data 입력방지 기능
     // if (content === "") {
     if (!content)  { // content 가 비어있으면 
-      e.preventDefault(); // 이벤트 취소 
+      e.preventDefault();
       inputRef.current.focus();
       return;
     } else {
       onCreate(content); // 부모(App)로부터 전달받은 함수
     }
-    setContent(""); //추가한 후 다시 빈 공간으로 할당. 
+    setContent("");
   }; //onSubmit
 
   // ** 기능 업그레이드 2
@@ -54,4 +54,4 @@ const TodoEditor = ({onCreate}) => {
     </div>
   );  
 }; //TodoEditor
-export default TodoEditor;
+export default TodoEditor

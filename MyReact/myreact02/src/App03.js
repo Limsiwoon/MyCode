@@ -11,15 +11,25 @@
 //    불필요한 연산을 줄여주는 기술
 // => 이러한 기능을 알고리즘에서는 Dynamic(동적) Programming (DP) 라함.
 // => 리액트의 연산 최적화 기법
-//  - useMemo(), useCallback(), React.memo
+//  - useMemo(), useCallback(), React.memo(컴포넌트)
 
 // ** useMemo()
 // => 함수의 불필요한 재실행 방지
 // => 메모이제이션(Memoization) 기법을 이용해 연산의 결과값을
-//    기억헤 두었다가 필요할때 사용함으로 불필요한 함수호출을 줄여주는 훅.  
+//    기억해 두었다가 필요할때 사용함으로 불필요한 함수호출을 줄여주는 훅.  
 // => const value = useMemo(callback, [의존성배열]);
-//    의존성배열 의 값이 바뀌면 callback 함수를 실행하고 결과값 return
+//    의존성배열의 값이 바뀌면 callback 함수를 실행하고 결과값 return
 // => TodoList 컴포넌트에 analyzeTodo 함수 추가 하고 Test
+
+// => useEffect 와 비교하기  ( 아래 비교예제 참고 )
+//  -> useEffect(callback_함수, [deps]_의존성 배열)
+//    두번째 인자인 의존성 배열요소의 값이 변경되면 첫번째 인자인 콜백함수를 실행함 
+//    ( 결과를 return 하지않음 )
+
+//  -> useMemo() 와 useEffect() 차이점  
+//    - useMemo는 랜더링 직전 실행, useEffect는 랜더링 직후 실행
+//    - useMemo는 callback함수 결과값 return, useEffect는 결과 return 하지않음
+//    - useMemo는 함수 최적화용, useEffect는 side effect (예_서버에서 Data 가져오기 등, myreact01_App03 참고) 수행
 
 // ** useCallback()
 // => 함수의 불필요한 재생성 방지
@@ -45,7 +55,7 @@
 //    const comp = React.memo(() => {....})
 
 // => 고차 컴포넌트 (HOC: High Order Component)
-//    컴포넌트 기능을 재사용 하기위한 리액트 고급기슬 
+//    컴포넌트 기능을 재사용 하기위한 리액트 고급기술 
 //    인자로 전달된 컴포넌트에 새로운 기능을 추가해 
 //    더욱 강화된 컴포넌트를 return 하는 컴포넌트(함수) 를 말하며
 //    이때 return 되는 강화된 컴포넌트를 Enhanced(강화된, 향상된) Component 라함.   
@@ -57,14 +67,10 @@
 // => useMemo(), useCallback(), React.memo 적용
 
 import './App.css';
-
 import Header from './components01/Header';
 import TodoEditor from './components01/TodoEditor';
 import TodoList from './components01/TodoList';
-// import TestComp from './components/TestComp';
-
-import { useReducer, useState, useRef } from "react";
-// import { useState, useMemo, useEffect } from "react";
+import { useReducer, useState, useRef, useEffect, useMemo } from "react";
 import { useCallback } from 'react';
 
 // 2. Mock Data
@@ -161,7 +167,11 @@ function App() {
     dispatch({ type:"Delete", targetId }); //dispatch 
   }, [] );
 
-  console.log("** App Update !! **");
+  // ** useMemo 와 useEffect 와 호출시점 비교예제 
+  useMemo(() => { console.log("** useMemo Call !!!"); }, []); //1st
+  console.log("** App Update !! **");  //2nd
+  useEffect(() => { console.log("** useEffect Call !!!"); }, []); //3rd (랜더링후)
+
   return (
     <div className="App">
       {/* <TestComp /> */}
@@ -173,3 +183,25 @@ function App() {
 }
 
 export default App;
+
+
+//** myreact01,  App03.js
+// => 목적: side effect 를 수행 하기위한 훅
+//  -> side effect
+//     사이드이펙트, 사전적 직역은 (예상치못한) 부작용 을 의미
+//     대상의 옆에서 효과가 난다는 의미에서 나옴
+//     개발시에는 의도치 않은 코드 실행으로 버그발생시 사이드이펙트가 발생했다고 함 
+//     그러나 리액트에서는 effect(효과, 영향) 의 의미로 쓰이며
+//     다른 컴포넌트에 영향을 줄 수 있으며, 랜더링 도중에는 작업이 완료될수 없기 때문에
+//     랜더링 후에 실행되어야 하는 작업들을 의미함.
+//     예를 들면 서버에서 데이터를 받아오거나, 수동으로 DOM 을 변경하는 등의 작업을 말함.      
+
+// => useEffect(callback_함수, [deps]_의존성 배열)
+//    두번째 인자인 의존성 배열요소의 값이 변경되면 첫번째 인자인 콜백함수를 실행함   
+//  -> 두번째 인자값 초기화 할때도 감지함
+//  -> 두번째인자가 없는 useEffect : 조건값이 제시되지않았으므로 랜더링 할때마다 호출됨
+//  -> 두번째인자가 빈배열 인경우 : 마운트 시점에만 콜백함수 실행, 그러므로 Mount 제어에 이용
+
+// => 첫번째인자인 callback_함수의 주의사항
+//  -> 전역변수 사용 불가능, 함수 내부에서 정의한 지역변수만 사용가능 
+//  -> useState 와 useRef 로 정의한 변수는 접근 가능함 (아래 예제 참고
