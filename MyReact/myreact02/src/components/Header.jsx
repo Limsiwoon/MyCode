@@ -1,28 +1,46 @@
+import '../styles/Header.css';
+import { Link } from 'react-router-dom';
+import { apiCall } from '../service/apiService';
 
-// ** React.memo
-// => 컴포넌트의 불필요한 리랜더링 방지
-// => React.memo(메모이제이션 하려는 컴포넌트)
-//    인자로 전달된 컴포넌트를 메모이제이션 된 컴포넌트로 return
+function Header({ userName, isLoggedIn, onLogout }) {
 
-// ** 최적화 적용
-// => 적용전: 부모 컴포넌트인 App 이 리랜더링 되면 무조건 리랜더링 됨
-// => 적용후: 마운트시에만 랜더링 됨.
+    // ** 서버연결 확인 하기
+    const serverTest = () => {
+        let url='/user/check-server';
+        apiCall(url, 'GET', null, null)
+        .then((response) => {
+            alert(`** 서버 API 연결 성공 => ${response.checkData}`);
+            // apiCall 에서는 response.data 값을 return 함.
+        }).catch((err) => {
+            alert(`** 서버 API 연결 실패 => ${err}`);
+        });
+    } //serverTest
 
-import "./Header.css";
-import React from "react";
+    return (
+        <div className="headerTop">
+            <h2>** Full_Stack SpringBoot & React **</h2>
+            <div className="headerLeft">
+                <span onClick={serverTest} className="textlink">Server</span>&nbsp;&nbsp;
+                <a href='http://localhost:8080/home' >SHome</a>&nbsp;&nbsp;
+                <Link to="/">FHome</Link>
+            </div>
+            <div className="serviceTab">
+                <ul className="serviceTabList">{ isLoggedIn ? 
+                    ( <>
+                        <li>{userName}님</li>
+                        <li><Link to="/" onClick={onLogout}>로그아웃</Link></li>
+                        <li><Link to="/mypage/:data">마이페이지</Link></li>
+                        </> ) : 
+                    ( <>
+                        <li><Link to="/login">로그인</Link></li>
+                        <li><Link to="/join">회원가입</Link></li>
+                        </> ) }
+                    <li><Link to="/mlist">MList</Link></li>
+                    <li><Link to="/blist">BList</Link></li>
+                </ul>
+            </div>
+        </div> //headerTop
+    ); //return
+} //Header
 
-const Header = () => {
-  // => 최적화 적용 전/후 입력/수정/삭제 실행 후 출력 비교
-  console.log("** Header Update !! **");
-  return (
-    <div className="Header">
-      <h3>오늘은 📅</h3>
-     {/* => 윈도우 이모지 : 윈도우+ .  누르면 표시됨 */}
-      <h1>{ new Date().toDateString() }</h1>
-      {/* => toDateString() :  날짜를 문자열로 */}
-    </div>
-  );
-};
-//export default Header;
-// => React.memo 로 감싸기 전 후 비교-
-export default React.memo(Header);
+export default Header;
